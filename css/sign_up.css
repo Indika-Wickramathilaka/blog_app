@@ -1,0 +1,28 @@
+body {
+    background-color: #0d1219;
+}
+
+#card {
+    background-color: #0d1219;
+    color: #ffffff;
+    border: #ffffff solid 1px;
+    padding: 2rem;
+}
+
+#card-header {
+    background-color: #0d1219;
+    color: #ffffff;
+    padding-left: 32px;
+}
+
+#card-body {
+    margin: 0px;
+    background-color: #0d1219;
+    color: #ffffff;
+}
+
+#card-footer {
+    background-color: #0d1219;
+    color: #ffffff;
+    padding-left: 32px;
+}
