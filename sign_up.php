@@ -1,3 +1,46 @@
+<?php include_once('inc/conn.php'); ?>
+
+<?php
+if (isset($_POST['submit'])) {
+
+    // Declaring variables and assign emty values
+    $firstName = "";
+    $lastName = "";
+    $email = "";
+    $password = "";
+
+    $firstName = input_varify($_POST['firstname']);
+    $lastName = input_varify($_POST['lastname']);
+    $email = input_varify($_POST['email']);
+    $password = input_varify($_POST['password']);
+
+    $query = "INSERT INTO TBL_User(Fname, Lname, Email, Pwd, Reg_DT) VALUES (
+            '{$firstName}', '{$lastName}', '{$email}', '{$password}', NOW()
+        )";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        echo "User Registration Success!";
+    } else {
+        echo mysqli_error($conn);
+    }
+}
+
+function input_varify($data)
+{
+    //Remove emty space from user input
+    $data = trim($data);
+
+    //Remove back slash from user input
+    $data = stripslashes($data);
+
+    //Convert special chars to html entities
+    $data = htmlspecialchars($data);
+
+    return $data;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,34 +67,34 @@
                     </div>
                     <div class="card-body">
                         <div class="card-body" id="card-body">
-                            <div class="form-group mt-2">
-                                <label for="" class="">First Name</label>
-                                <input type="text" class="form-control" name="" id="" placeholder="" aria-describedby="helpId">
-                                <small id="helpId" class="text-muted">Enter your first name</small>
-                            </div>
+                            <form action="sign_up.php" method="post" autocomplete="off">
+                                <div class="form-group mt-2">
+                                    <label for="" class="">First Name</label>
+                                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="" aria-describedby="helpId">
+                                    <small id="helpId" class="text-muted">Enter your first name</small>
+                                </div>
 
-                            <form action="index.php">
                                 <div class="form-group mt-2">
                                     <label for="" class="">Last Name</label>
-                                    <input type="text" class="form-control" name="" id="" placeholder="" aria-describedby="helpId">
+                                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="" aria-describedby="helpId">
                                     <small id="helpId" class="text-muted">Enter your last name</small>
                                 </div>
 
                                 <div class="form-group mt-2">
                                     <label for="" class="">Email</label>
-                                    <input type="email" class="form-control" name="" id="" placeholder="" aria-describedby="helpId">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="" aria-describedby="helpId">
                                     <small id="helpId" class="text-muted">Enter your email address</small>
                                 </div>
 
                                 <div class="form-group mt-2">
                                     <label for="" class="">Password</label>
-                                    <input type="password" class="form-control" name="" id="" placeholder="" aria-describedby="helpId">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="" aria-describedby="helpId">
                                     <small id="helpId" class="text-muted">Enter your own password</small>
                                 </div>
                         </div>
                     </div>
                     <div class="card-footer" id="card-footer">
-                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Sign Up</button>
                     </div>
                     </form>
                 </div>
