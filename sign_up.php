@@ -8,22 +8,38 @@ if (isset($_POST['submit'])) {
     $lastName = "";
     $email = "";
     $password = "";
+    $msg = "";
 
     $firstName = input_varify($_POST['firstname']);
     $lastName = input_varify($_POST['lastname']);
     $email = input_varify($_POST['email']);
     $password = input_varify($_POST['password']);
 
-    $query = "INSERT INTO TBL_User(Fname, Lname, Email, Pwd, Reg_DT) VALUES (
-            '{$firstName}', '{$lastName}', '{$email}', '{$password}', NOW()
-        )";
+    $query1 = "SELECT * FROM TBL_User WHERE Fname = '{$firstName}' AND Email = '{$email}'";
 
-    $result = mysqli_query($conn, $query);
+    $showResult = mysqli_query($conn, $query1);
 
-    if ($result) {
-        echo "User Registration Success!";
-    } else {
-        echo mysqli_error($conn);
+    if ($showResult) {
+        if (mysqli_num_rows($showResult) == 1) {
+            $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                <strong>Sorry!</strong> This user already have in this system. Please try another email account. 
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+        } else {
+            $query = "INSERT INTO TBL_User(Fname, Lname, Email, Pwd, Reg_DT) VALUES (
+            '{$firstName}', '{$lastName}', '{$email}', '{$password}', NOW())";
+
+            $result = mysqli_query($conn, $query);
+
+            if ($result) {
+                $msg = "<div class='alert alert-primary alert-dismissible fade show' role='alert'>
+                <strong>User Registration Success!</strong> Welcome to the DevTubes Community.
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+            } else {
+                echo mysqli_error($conn);
+            }
+        }
     }
 }
 
@@ -68,6 +84,9 @@ function input_varify($data)
                     <div class="card-body">
                         <div class="card-body" id="card-body">
                             <form action="sign_up.php" method="post" autocomplete="off">
+                                <?php if (!empty($msg)) {
+                                    echo $msg;
+                                } ?>
                                 <div class="form-group mt-2">
                                     <label for="" class="">First Name</label>
                                     <input type="text" class="form-control" name="firstname" id="firstname" placeholder="" aria-describedby="helpId">
