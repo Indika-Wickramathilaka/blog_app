@@ -1,3 +1,29 @@
+<style>
+  #create {
+    border: 1px solid #0066ff;
+    color: #0066ff;
+    margin-right: 1rem;
+  }
+
+  #create:hover {
+    border: 1px solid #0066ff;
+    color: #ffffff;
+    background-color: #0066ff;
+  }
+
+  #sign_out {
+    border: 1px solid #e60000;
+    color: #e60000;
+  }
+
+  #sign_out:hover {
+    border: 1px solid #e60000;
+    color: #ffffff;
+    background-color: #e60000;
+  }
+
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.php">Navbar</a>
@@ -30,12 +56,29 @@
         </li> -->
       </ul>
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" aria-disabled="true">Sign In</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-disabled="true" href="sign_up.php">Sign Up</a>
-        </li>
+        <?php 
+          if (isset($_SESSION['user_Fname'])) {
+            echo "
+              <li class='nav-item'>
+                <a id='create' class='nav-link' aria-disabled='true' href='create_post.php'>Create</a>
+              </li>
+
+              <li class='nav-item'>
+                <a id='sign_out' class='nav-link' aria-disabled='true' href='sign_out.php'>Sign Out</a>
+              </li>
+            ";
+          } else {
+            echo "
+              <li class='nav-item '>
+                <a class='nav-link' aria-disabled='true' href='sign_in.php'>Sign In</a>
+              </li>
+
+              <li class='nav-item'>
+                <a class='nav-link' aria-disabled='true' href='sign_up.php'>Sign Up</a>
+              </li>
+            ";
+          }
+        ?>
       </ul>
     </div>
   </div>
